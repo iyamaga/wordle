@@ -1,6 +1,7 @@
 # wordle
 
-## ReWordle.py  python script of word search for WORDLE
+## ReWordle.py  
+# python script of word search for WORDLE
 
 ```
 usage: ReWordle.py [-d] [^s s$ c ...  C ...]
