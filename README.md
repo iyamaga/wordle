@@ -5,11 +5,12 @@
 ### python script of word search for WORDLE
 
 ```
-usage: ReWordle.py [-d] [^s s$ c ...  C ...]
+usage: ReWordle.py [-d] [rrr ^s s$ c ...  C ...]
 	options
 	-d : debug print on
 	-D : debug print off
 	regex
+	rrr: reg exp
 	^s : start with s
 	s$ : end with s
 	c  : contain c
