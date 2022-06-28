@@ -1,4 +1,5 @@
-## wordle
+## WORDLE
+	[WORDLE]:https://www.nytimes.com/games/wordle/index.html
 ## ReWordle.py  
 ### python script of word search for WORDLE
 
