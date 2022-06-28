@@ -1,8 +1,8 @@
 # wordle
 
-## ReWordle.py    word search for WORDLE
+## ReWordle.py  python script of word search for WORDLE
 
-'''
+```
 usage: ReWordle.py [-d] [^s s$ c ...  C ...]
 	options
 	-d : debug print on
@@ -23,6 +23,6 @@ I 997
 --- debug off
 ['droll', 'drool', 'lords', 'older']
 ---
-'''
+```
 
 ### This script is using 'corncob_lowercase.txt' for dictionary file from 'http://www.mieliestronk.com/wordlist.html'.
