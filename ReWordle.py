@@ -77,7 +77,12 @@ def wordle_search(rex = ('^ab', 't$', 'o', 't', 'R'), debug_ = False):
         sw = True
         if x.isupper():
             sw = False
-        prog = re.compile(x, re.IGNORECASE)
+        
+        try:
+            prog = re.compile(x, re.IGNORECASE)
+        except e as Exception:
+            print("regex error", e)
+            sys.exit(-1)
 
         n = 0
         w = []
@@ -103,11 +108,12 @@ def wordle_search(rex = ('^ab', 't$', 'o', 't', 'R'), debug_ = False):
 
 def main():
     if len(sys.argv) == 1:
-        print('usage: ReWordle.py [-d] [^s s$ c ...  C ...]')
+        print('usage: ReWordle.py [-d] [rrr ^s s$ c ...  C ...]')
         print('\toptions')
         print('\t-d : debug print on')
         print('\t-D : debug print off')
         print('\tregex')
+        print('\trrr: reg exp')
         print('\t^s : start with s')
         print('\ts$ : end with s')
         print('\tc  : contain c')
