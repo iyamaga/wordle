@@ -15,6 +15,7 @@ usage: ReWordle.py [-d] [rrr ^s s$ c ...  C ...]
 	s$ : end with s
 	c  : contain c
 	C  : not contain c
+	#cC: c & C by string
 	ex : ReWordle.py ^ab t$ o u R    for about
 ---
 $ wordle_search([-d W A U I -D d o r l])   ### search for 2022/6/28 wordle "audio/world/droll"
