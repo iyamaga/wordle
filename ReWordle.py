@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
     ReWordle
-    2022/6/28 Ayakosan
+    2022/6/30 Ayakosan
 
     word search for WORDLE
 '''
@@ -60,9 +60,10 @@ class edic2:
         # print(n)
         return d
 
-def wordle_search(rex = ('^ab', 't$', 'o', 't', 'R'), debug_ = False):
-    dic = edic2()
-    w5 = dic.accessAll()
+def wordle_search(rex = ('^ab', 't$', 'o', 't', 'R'), w5 = None, debug_ = False):
+    if w5 is None:
+        dic = edic2()
+        w5 = dic.accessAll()
 
     for x in rex:
         if x.startswith('-d'):
@@ -74,36 +75,40 @@ def wordle_search(rex = ('^ab', 't$', 'o', 't', 'R'), debug_ = False):
             print('--- debug off')
             continue
 
-        sw = True
-        if x.isupper():
-            sw = False
-        
-        try:
-            prog = re.compile(x, re.IGNORECASE)
-        except e as Exception:
-            print("regex error", e)
-            sys.exit(-1)
+        if x.startswith('#'):
+            rex2 = list(x[1:])
+            w5 = wordle_search(rex2, w5, debug_)
+        else:
+            sw = True
+            if x.isupper():
+                sw = False
 
-        n = 0
-        w = []
-        for s in w5:
-            ret = prog.search(s)
+            try:
+                prog = re.compile(x, re.IGNORECASE)
+            except e as Exception:
+                print("regex error", e)
+                sys.exit(-1)
 
-            if sw:
-                if ret:
-                    w.append(s)
-                    n = n + 1
-            else:
-                if ret is None:
-                    w.append(s)
-                    n = n + 1
-        w5 = w
+            n = 0
+            w = []
+            for s in w5:
+                ret = prog.search(s)
 
-        if debug_:
-            if n < 10:
-                print(x, n, w5)
-            else:
-                print(x, n)
+                if sw:
+                    if ret:
+                        w.append(s)
+                        n = n + 1
+                else:
+                    if ret is None:
+                        w.append(s)
+                        n = n + 1
+            w5 = w
+
+            if debug_:
+                if n < 10:
+                    print(x, n, w5)
+                else:
+                    print(x, n)
     return w5
 
 def main():
@@ -118,13 +123,15 @@ def main():
         print('\ts$ : end with s')
         print('\tc  : contain c')
         print('\tC  : not contain c')
+        print('\t#cC: c & C by string')
         print('\tex : %s ^ab t$ o u R    for about' % os.path.basename(sys.argv[0]))
 
         print('---')
         ##### Instant Run
         ##### Please modify list below on this source code
         #####
-        rex = ['-d', 'W', 'A', 'U', 'I', '-D', 'd', 'o', 'r', 'l']
+        ##rex = ['-d',  'ch$',  't', 'O', 'P', 'L', 'A', 'N', 'E', 'F', 'I', 'G']
+        rex = ['-d',  'ch$', '#tOPLANEFIG']
         print('$ wordle_search([' + ' '.join(rex) + '])')
         print(wordle_search(rex))
         print('---')
