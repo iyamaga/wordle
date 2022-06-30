@@ -85,7 +85,7 @@ def wordle_search(rex = ('^ab', 't$', 'o', 't', 'R'), w5 = None, debug_ = False)
 
             try:
                 prog = re.compile(x, re.IGNORECASE)
-            except e as Exception:
+            except Exception as e:
                 print("regex error", e)
                 sys.exit(-1)
 
