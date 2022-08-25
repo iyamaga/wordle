@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
     ReWordle
-    2022/6/30 Ayakosan
+    2022/6/28 Ayakosan
 
     word search for WORDLE
 '''
@@ -66,11 +66,13 @@ def wordle_search(rex = ('^ab', 't$', 'o', 't', 'R'), w5 = None, debug_ = False)
         w5 = dic.accessAll()
 
     for x in rex:
-        if x.startswith('-d'):
+        if x == '.':
+            continue
+        if x.startswith('/d'):
             debug_ = True
             print('--- debug on')
             continue
-        if x.startswith('-D'):
+        if x.startswith('/D'):
             debug_ = False
             print('--- debug off')
             continue
@@ -78,6 +80,18 @@ def wordle_search(rex = ('^ab', 't$', 'o', 't', 'R'), w5 = None, debug_ = False)
         if x.startswith('#'):
             rex2 = list(x[1:])
             w5 = wordle_search(rex2, w5, debug_)
+            rex3 = yellow2(x[1:])
+            w5 = wordle_search(rex3, w5, debug_)
+        elif x.startswith('-'):
+            nregs = yellow(x[1:])
+            w5 = wordle_search(nregs, w5, debug_)
+        elif x.startswith('!'):
+            print("Not ", end="")
+            rex2 = (x[1:],)
+            x5 = wordle_search(rex2, w5, debug_)
+            for z in x5:
+                if z in w5:
+                    w5.remove(z)
         else:
             sw = True
             if x.isupper():
@@ -111,27 +125,64 @@ def wordle_search(rex = ('^ab', 't$', 'o', 't', 'R'), w5 = None, debug_ = False)
                     print(x, n)
     return w5
 
+def yellow2(r):
+    a = list(r)
+    n = 0
+    c = 0
+    for b in a:
+        if b.isupper():
+            a[n] = '.'
+        else:
+            c = c + 1
+        n = n + 1
+    b = yellow(''.join(a))
+    return b[1:]  ## bug fix 2022-8-20 [:c]
+
+
+def yellow(r):
+    a = list(r)
+    reg = []
+    chrs = ""
+    n = 0
+    for b in a:
+        if b != '.':
+            chrs = chrs + b
+            if b.islower():
+                nr = list(".....")
+                nr[n] = b
+                reg.append('!' + ''.join(nr))
+        n = n + 1
+    if len(chrs) > 0:
+        return ['#' + chrs] + reg
+    return reg
+
 def main():
     if len(sys.argv) == 1:
-        print('usage: ReWordle.py [-d] [rrr ^s s$ c ...  C ...]')
+        print('usage: ReWordle.py [/d] [rrr !rrr -word ^s s$ #cC c ...  C ...]')
         print('\toptions')
-        print('\t-d : debug print on')
-        print('\t-D : debug print off')
-        print('\tregex')
+        print('\t/d : debug print on')
+        print('\t/D : debug print off')
         print('\trrr: reg exp')
-        print('\t^s : start with s')
-        print('\ts$ : end with s')
+        print('\t\tregex : regular exp')
+        print('\t\t!regex : not regex')
+        print('\t\t-regex : charange word')
+        print('\t\t^s : start with s')
+        print('\t\ts$ : end with s')
         print('\tc  : contain c')
         print('\tC  : not contain c')
         print('\t#cC: c & C by string')
-        print('\tex : %s ^ab t$ o u R    for about' % os.path.basename(sys.argv[0]))
+        print('\t#Cc.Cc: 5char wordle input, "." is for exact right char')
+        print('\texample : %s ^ab t$ o u R    for about' % os.path.basename(sys.argv[0]))
+        print('\t\tstart with "ab", end with "t", contain "o" and "u", not contain "r" ')
 
         print('---')
         ##### Instant Run
         ##### Please modify list below on this source code
         #####
         ##rex = ['-d',  'ch$',  't', 'O', 'P', 'L', 'A', 'N', 'E', 'F', 'I', 'G']
-        rex = ['-d',  'ch$', '#tOPLANEFIG']
+        #rex = ['/d',  '#PUNCHTOGKYR', '..a..', '!....a', '-e..l.', '-r.a.e', ] #'!.n...', '!..a..','!...i.','!....l']
+        rex = ['/d', '.oven', '#MeRIT', '#ABUSe', '#CDXL']
+        #rex = ['-d',  '',  't', 'O', 'P', 'L', 'A', 'N', 'E', 'F', 'I', 'G']
         print('$ wordle_search([' + ' '.join(rex) + '])')
         print(wordle_search(rex))
         print('---')
