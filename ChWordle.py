@@ -1,3 +1,5 @@
+import sys
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
@@ -28,18 +30,39 @@ rex = []
 for row in x:
     if row[0][0] == '':
         break
-    check = '#'
     for i in range(5):
         if row[i][1] == 'correct':
             answer[i] = row[i][0]
+
+if '.' in answer:
+    pass
+else:
+    print("ANSWER is ", ''.join(answer))
+    driver.quit()
+    sys.exit(0)
+
+
+for row in x:
+    if row[0][0] == '':
+        break
+    check = '#'
+    for i in range(5):
+        if row[i][1] == 'correct':
             check = check + '.'
         elif row[i][1] == 'present':
             check = check + row[i][0]
         elif row[i][1] == 'absent':  ## yet enter  or row[i][1] == 'tbd':
-            check = check + row[i][0].upper()
+            if row[i][0] in answer:
+                l = list('.....')
+                l[i] = row[i][0]
+                rex.append('!'+''.join(l))
+            else:
+                check = check + row[i][0].upper()
         else:
             check = check + '?'
     rex.append(check)
+
+
 #print(''.join(answer), check)
 rex = ['/d', ''.join(answer)] + rex
 print('$ wordle_search([' + ' '.join(rex) + '])')
