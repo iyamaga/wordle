@@ -4,7 +4,7 @@
 ## ChWordle.py
 ### reading tile from web and make answer (require chrome debug mode)
 
-"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\hoge" https://www.nytimes.com/games/wordle/index.html"
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\hoge" https://www.nytimes.com/games/wordle/index.html
 
 
 ## ReWordle.py  
